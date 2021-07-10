@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Models;
+using DataStore.EF;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +13,57 @@ namespace WebApplication5.Controllers
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {
+        private readonly BugsContext db;
+
+        public ProjectsController(BugsContext db)
+        {
+            this.db = db;
+        }
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Reading all the projects"); //status code 200
+            return Ok(db.Projects.ToList()); //status code 200
         }
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetById(int id)
         {
-            return Ok($"Reading project #{id}."); //status code 200
+            var project = db.Projects.Find(id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            return Ok(project); //status code 200
+        }
+        [HttpGet]
+        [Route("/api/projects/{pid}/tickets")]
+
+        public IActionResult GetProjectTicket(int pId)
+        {
+            var tickets = db.Tickets.Where(t => t.ProjectId == pId).ToList();
+            if (tickets == null || tickets.Count <= 0)
+            {
+                return NotFound();
+            }
+            return Ok(tickets);
         }
         //MODEL BINDING PRIMITIVE
         /*
          * /api/projects/56/tickets?tid=435 or /api/projects/56/tickets
          */
-        [HttpGet]
-        [Route("/api/projects/{pid}/tickets")]
+        //[HttpGet]
+        //[Route("/api/projects/{pid}/tickets")]
 
-        public IActionResult GetProjectTicket(int pId, [FromQuery] int tId)
-        {
-            if (tId == 0)
-            {
-                return Ok($"Reading all the tickets belong to project #{pId}");
-            }
-            else
-            {
-                return Ok($"Reading project #{pId}, ticket #{tId}");
-            }
-        }
+        //public IActionResult GetProjectTicket(int pId, [FromQuery] int tId)
+        //{
+        //    if (tId == 0)
+        //    {
+        //        return Ok($"Reading all the tickets belong to project #{pId}");
+        //    }
+        //    else
+        //    {
+        //        return Ok($"Reading project #{pId}, ticket #{tId}");
+        //    }
+        //}
         //MODEL BINDING COMPLEX
         //[HttpGet]
         //[Route("/api/projects/{pid}/tickets")]
@@ -60,19 +86,49 @@ namespace WebApplication5.Controllers
         //    }
         //}
         [HttpPost]
-        public IActionResult Post()
+        public IActionResult Post([FromBody] Project project)
         {
-            return Ok("Creating a project"); //status code 200
+            db.Projects.Add(project);
+            // state added, marked as added
+            db.SaveChanges();
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = project.ProjectId },
+                project);
         }
-        [HttpPut]
-        public IActionResult Put()
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Project project)
         {
-            return Ok("Updating a project"); //status code 200
+            if (id != project.ProjectId)
+            {
+                return BadRequest();
+            }
+            db.Entry(project).State = EntityState.Modified;
+            //what if DB already deleted this particular project
+            try
+            {
+                db.SaveChanges();
+            }
+            catch
+            {
+                if(db.Projects.Find(id) == null)
+                {
+                    return NotFound();
+                }
+                throw;
+            }
+            return NoContent(); //status code 200
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok($"Deleting project #{id}."); //status code 200
+            var project = db.Projects.Find(id);
+            if (project == null) return NotFound();
+
+            db.Projects.Remove(project);
+            db.SaveChanges();
+
+            return Ok(project);
         }
     }
 }

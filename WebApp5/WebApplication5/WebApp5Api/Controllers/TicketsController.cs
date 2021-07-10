@@ -1,5 +1,7 @@
 ﻿using Core.Models;
+using DataStore.EF;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,30 +15,63 @@ namespace WebApplication5.Controllers
     //[Version1DiscountinueResourceFilter]
     public class TicketsController : ControllerBase
     {
+        private readonly BugsContext db;
+        public TicketsController(BugsContext db)
+        {
+            this.db = db;
+        }
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Reading all the tickets"); //status code 200
+            return Ok(db.Tickets.ToList());
         }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            return Ok($"Reading ticket #{id}."); //status code 200
+            var ticket = db.Tickets.Find(id);
+            if (ticket == null)
+                return NotFound();
+
+            return Ok(ticket);
         }
+
         [HttpPost]
-        public IActionResult PostV1([FromBody] Ticket ticket)
+        public IActionResult Post([FromBody] Ticket ticket)
         {
-            return Ok(ticket); //status code 200
+            db.Tickets.Add(ticket);
+            db.SaveChanges();
+
+            return CreatedAtAction(nameof(GetById),
+                    new { id = ticket.TicketId },
+                    ticket
+                );
         }
-        [HttpPut]
-        public IActionResult Put([FromBody] Ticket ticket)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Ticket ticket)
         {
-            return Ok(ticket); //status code 200
+            if (id != ticket.TicketId) return BadRequest();
+
+            db.Entry(ticket).State = EntityState.Modified;
+            try
+            {
+                db.SaveChanges();
+            }
+            catch
+            {
+                if (db.Tickets.Find(id) == null)
+                    return NotFound();
+                throw;
+            }
+            return NoContent();
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok($"Deleting ticket #{id}."); //status code 200
+            var ticket = db.Tickets.Find(id);
+            if (ticket == null) return NotFound();
+            db.Tickets.Remove(ticket);
+            db.SaveChanges();
+            return Ok(ticket);
         }
     }
 }
