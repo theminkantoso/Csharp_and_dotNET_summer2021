@@ -22,5 +22,9 @@ I started Learning Csharp and ASP.NET Core in 2021 Summer. This repository is my
     + Model Validation, Validation Attribute
   - Core: Refactoring
     + Message now can be broadcasted from any channel
-    + Reduce dependency of validation from MVC   
+    + Reduce dependency of validation from MVC 
+  - EF.DataStore: Framework Entity
+    + However foreign key constrain has yet to be applied, considering using SQL Server or create validation filter later
+    Now it is only a build-in memory version, no SQL Server Included
+     
 
