@@ -20,6 +20,7 @@ I started Learning Csharp and ASP.NET Core in 2021 Summer. This repository is my
     + Resource Filter
     + Model Binding
     + Model Validation, Validation Attribute
-  - Core:
-    + Refactoring
+  - Core: Refactoring
+    + Message now can be broadcasted from any channel
+    + Reduce dependency of validation from MVC   
 
