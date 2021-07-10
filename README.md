@@ -13,9 +13,12 @@ I started Learning Csharp and ASP.NET Core in 2021 Summer. This repository is my
   - Blazor FE and table orginazation
   - add-migration and database-update
 3. WebApplication5: (Udemy)
-  - More about API and routing, testing API and validation
-  - Action Filter
-  - Resource Filter
-  - Model Binding
-  - Model Validation, Validation Attribute
+  a. WebApp5Api
+    - More about API and routing, testing API and validation
+    - Action Filter
+    - Resource Filter
+    - Model Binding
+    - Model Validation, Validation Attribute
+  b. Core:
+    - Refactoring
 
