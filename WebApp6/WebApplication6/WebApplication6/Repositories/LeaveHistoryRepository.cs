@@ -16,22 +16,28 @@ namespace WebApplication6.Repositories
         }
         public bool Create(LeaveHistory entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveHistories.Add(entity);
+            return Save();
         }
-
+        public bool Update(LeaveHistory entity)
+        {
+            _db.LeaveHistories.Update(entity);
+            return Save();
+        }
         public bool Delete(LeaveHistory entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveHistories.Remove(entity);
+            return Save();
         }
 
         public ICollection<LeaveHistory> FindAll()
         {
-            throw new NotImplementedException();
+            return _db.LeaveHistories.ToList();
         }
 
         public LeaveHistory FindById(int id)
         {
-            throw new NotImplementedException();
+            return _db.LeaveHistories.Find(id);
         }
 
         public ICollection<LeaveHistory> GetEmployeeByLeaveHistory(int id)
@@ -41,12 +47,8 @@ namespace WebApplication6.Repositories
 
         public bool Save()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(LeaveHistory entity)
-        {
-            throw new NotImplementedException();
+            // interger if how many record edited, so it will >= 1
+            return _db.SaveChanges() > 0;
         }
     }
 }

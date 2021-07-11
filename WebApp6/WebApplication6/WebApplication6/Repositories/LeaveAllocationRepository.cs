@@ -16,22 +16,28 @@ namespace WebApplication6.Repositories
         }
         public bool Create(LeaveAllocation entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveAllocations.Add(entity);
+            return Save();
         }
-
+        public bool Update(LeaveAllocation entity)
+        {
+            _db.LeaveAllocations.Update(entity);
+            return Save();
+        }
         public bool Delete(LeaveAllocation entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveAllocations.Remove(entity);
+            return Save();
         }
 
         public ICollection<LeaveAllocation> FindAll()
         {
-            throw new NotImplementedException();
+            return _db.LeaveAllocations.ToList();
         }
 
         public LeaveAllocation FindById(int id)
         {
-            throw new NotImplementedException();
+            return _db.LeaveAllocations.Find(id);
         }
 
         public ICollection<LeaveAllocation> GetEmployeeByLeaveAllocation(int id)
@@ -41,12 +47,8 @@ namespace WebApplication6.Repositories
 
         public bool Save()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(LeaveAllocation entity)
-        {
-            throw new NotImplementedException();
+            // interger if how many record edited, so it will >= 1
+            return _db.SaveChanges() > 0;
         }
     }
 }

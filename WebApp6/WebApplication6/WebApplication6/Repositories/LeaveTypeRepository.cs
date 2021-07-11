@@ -16,37 +16,35 @@ namespace WebApplication6.Repositories
         }
         public bool Create(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveTypes.Add(entity);
+            return Save();
         }
-
+        public bool Update(LeaveType entity)
+        {
+            _db.LeaveTypes.Update(entity);
+            return Save();
+        }
         public bool Delete(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _db.LeaveTypes.Remove(entity);
+            return Save();
         }
-
         public ICollection<LeaveType> FindAll()
         {
-            throw new NotImplementedException();
+            return _db.LeaveTypes.ToList();
         }
-
         public LeaveType FindById(int id)
         {
-            throw new NotImplementedException();
+            return _db.LeaveTypes.Find(id);
         }
-
         public ICollection<LeaveType> GetEmployeeByLeaveType(int id)
         {
             throw new NotImplementedException();
         }
-
         public bool Save()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(LeaveType entity)
-        {
-            throw new NotImplementedException();
+            // interger if how many record edited, so it will >= 1
+            return _db.SaveChanges() > 0;
         }
     }
 }
