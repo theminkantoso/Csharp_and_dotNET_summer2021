@@ -26,5 +26,9 @@ I started Learning Csharp and ASP.NET Core in 2021 Summer. This repository is my
   - EF.DataStore: Framework Entity
     + However foreign key constrain has yet to be applied, considering using SQL Server or create validation filter later
     Now it is only a build-in memory version, no SQL Server Included
+4. WebApplication6: (Udemy, the biggest project in this repository)
+  - More about Dependency Injection
+  - Repository Pattern
+  - Entity Framework
      
 
