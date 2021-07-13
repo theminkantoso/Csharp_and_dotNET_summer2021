@@ -12,6 +12,7 @@ namespace WebApplication6.Models
         // extra and then calculate it on the fly => same to entity (Model), but not a exact match
         public int Id { get; set; }
         public string Name { get; set; }
+        [Display(Name="Date Created")]
         public DateTime DateCreated { get; set; }
     }
     public class CreateLeaveTypeViewModel
