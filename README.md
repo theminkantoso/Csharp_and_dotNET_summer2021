@@ -30,5 +30,5 @@ I started Learning Csharp and ASP.NET Core in 2021 Summer. This repository is my
   - More about Dependency Injection
   - Repository Pattern
   - Entity Framework
-     
+  - AutoMapper between ViewModel and Model (ViewModel is kinda like DTO, relating to displaying information, and need to be converted to Model before passing into Repo)
 
