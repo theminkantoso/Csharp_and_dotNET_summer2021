@@ -19,7 +19,7 @@ namespace WebApplication6.Models
         public DateTime DateCreated { get; set; }
         public EmployeeViewModel Employee { get; set; }
         public string EmployeeId { get; set; }
-        public DetailsLeaveTypeViewModel LeaveType { get; set; }
+        public LeaveTypeViewModel LeaveType { get; set; }
         public int LeaveTypeId { get; set; }
         // list of employees and leave types, two attribute above only represents a single one, we need a list
         // using IEnumarable for more flexible
