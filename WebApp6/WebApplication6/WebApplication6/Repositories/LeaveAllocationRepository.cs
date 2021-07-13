@@ -50,5 +50,10 @@ namespace WebApplication6.Repositories
             // interger if how many record edited, so it will >= 1
             return _db.SaveChanges() > 0;
         }
+
+        public bool isExists(int id)
+        {
+            return _db.LeaveAllocations.Any(q => q.Id == id); // check if a table is empty
+        }
     }
 }
