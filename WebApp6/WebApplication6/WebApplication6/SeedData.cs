@@ -20,7 +20,7 @@ namespace WebApplication6
                 var user = new IdentityUser
                 {
                     UserName = "admin",
-                    Email = "admin@localhost"
+                    Email = "admin@localhost.com"
                 };
                 var result = userManager.CreateAsync(user, "Password1!").Result;
                 if(result.Succeeded)

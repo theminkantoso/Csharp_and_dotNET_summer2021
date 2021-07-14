@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using WebApplication6.Models;
 
 namespace WebApplication6.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypeRepository _repo;
@@ -20,6 +22,7 @@ namespace WebApplication6.Controllers
             this._repo = repo;
             this._mapper = mapper;
         }
+
         // GET: LeaveTypesController
         public ActionResult Index()
         {
