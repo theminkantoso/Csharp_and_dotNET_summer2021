@@ -97,6 +97,7 @@ namespace WebApplication6.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    _userManager.AddToRoleAsync(user, "Employee").Wait(); // assign anyone create account to employee role
                     // EMAIL CONFIRMATION
                     _logger.LogInformation("User created a new account with password.");
 
