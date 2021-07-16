@@ -10,5 +10,6 @@ namespace WebApplication6.Contracts
     {
         ICollection<LeaveAllocation> GetEmployeeByLeaveAllocation(int id);
         bool CheckAllocation(int leaveTypeId, string employeeId);
+        ICollection<LeaveAllocation> GetLeaveAllocationsByEmployee(string id);
     }
 }

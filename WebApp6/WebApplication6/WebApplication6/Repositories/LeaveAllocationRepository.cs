@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,12 +33,20 @@ namespace WebApplication6.Repositories
 
         public ICollection<LeaveAllocation> FindAll()
         {
-            return _db.LeaveAllocations.ToList();
+            return _db.LeaveAllocations.Include(q => q.LeaveType).ToList();
+            // LeaveType in LeaveAllocation Controller is null
+            // So we need to retrieve data from LeaveType corresponding to records in LeaveAllocation Table
+            // this include operator is kinda like an inner join data with the LeaveType table
+            // the problem is the details view require both data from employee and leaveType, and we use this function will only take 
+            // data from Leave allocation
         }
 
         public LeaveAllocation FindById(int id)
         {
-            return _db.LeaveAllocations.Find(id);
+            return _db.LeaveAllocations
+                .Include(q => q.LeaveType)
+                .Include(q => q.Employee)
+                .FirstOrDefault(q => q.Id == id);
         }
 
         public ICollection<LeaveAllocation> GetEmployeeByLeaveAllocation(int id)
@@ -60,6 +69,13 @@ namespace WebApplication6.Repositories
         {
             var period = DateTime.Now.Year;
             return FindAll().Where(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period).Any();
+        }
+
+        public ICollection<LeaveAllocation> GetLeaveAllocationsByEmployee(string id)
+        {
+            // getting allocations by employee
+            var period = DateTime.Now.Year;
+            return FindAll().Where(q => q.EmployeeId == id && q.Period == period).ToList();
         }
     }
 }

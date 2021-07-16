@@ -16,6 +16,7 @@ namespace WebApplication6.Mappings
             CreateMap<LeaveAllocation, LeaveAllocationViewModel>().ReverseMap();
             CreateMap<LeaveHistory, LeaveHistoryViewModel>().ReverseMap();
             CreateMap<Employee, EmployeeViewModel>().ReverseMap();
+            CreateMap<LeaveAllocation, EditLeaveAllocationViewModel>().ReverseMap();
         }
     }
 }

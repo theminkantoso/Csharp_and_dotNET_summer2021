@@ -19,5 +19,7 @@ namespace WebApplication6.Data
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
         public DbSet<WebApplication6.Models.LeaveTypeViewModel> DetailsLeaveTypeViewModel { get; set; }
         public DbSet<WebApplication6.Models.EmployeeViewModel> EmployeeViewModel { get; set; }
+        public DbSet<WebApplication6.Models.LeaveAllocationViewModel> LeaveAllocationViewModel { get; set; }
+        public DbSet<WebApplication6.Models.EditLeaveAllocationViewModel> EditLeaveAllocationViewModel { get; set; }
     }
 }

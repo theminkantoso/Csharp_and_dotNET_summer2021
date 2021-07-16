@@ -23,12 +23,28 @@ namespace WebApplication6.Models
         public int LeaveTypeId { get; set; }
         // list of employees and leave types, two attribute above only represents a single one, we need a list
         // using IEnumarable for more flexible
-        public IEnumerable<SelectListItem> Employees { get; set; }
-        public IEnumerable<SelectListItem> LeaveTypes { get; set; }
+        // but this change is no longer in effect
+        //public IEnumerable<SelectListItem> Employees { get; set; }
+        //public IEnumerable<SelectListItem> LeaveTypes { get; set; }
     }
     public class CreateLeaveAllocationViewModel
     {
         public int NumberUpdated { get; set; }
         public List<LeaveTypeViewModel> LeaveTypes { get; set; }
+    }
+    public class EditLeaveAllocationViewModel
+    {
+        public int NumbeOfDays { get; set; }
+        public LeaveTypeViewModel LeaveType { get; set; }
+        public int Id { get; set; }
+        public EmployeeViewModel Employee { get; set; }
+        public string EmployeeId { get; set; }
+    }
+    public class ViewAllocationViewModel
+    {
+        // We dont want any dataclass on viewmodel
+        public EmployeeViewModel Employee { get; set; }
+        public string EmployeeId { get; set; }
+        public List<LeaveAllocationViewModel> LeaveAllocations { get; set; }
     }
 }

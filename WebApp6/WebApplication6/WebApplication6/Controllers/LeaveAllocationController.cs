@@ -81,9 +81,18 @@ namespace WebApplication6.Controllers
             return View(model);
         }
         // GET: LeaveAllocationController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View();
+            // mapping one instance of the object to one instance to be returned
+            var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+            // a list and mapping back to the view model
+            var allocations = _mapper.Map<List<LeaveAllocationViewModel>>(_allocationrepo.GetLeaveAllocationsByEmployee(id));
+            var model = new ViewAllocationViewModel
+            {
+                Employee = employee,
+                LeaveAllocations = allocations
+            };
+            return View(model);
         }
 
         // GET: LeaveAllocationController/Create
@@ -110,17 +119,31 @@ namespace WebApplication6.Controllers
         // GET: LeaveAllocationController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var leaveAllocation = _allocationrepo.FindById(id);
+            var model = _mapper.Map<EditLeaveAllocationViewModel>(leaveAllocation);
+            return View(model);
         }
 
         // POST: LeaveAllocationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(EditLeaveAllocationViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if(!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                var record = _allocationrepo.FindById(model.Id);
+                record.NumberOfDays = model.NumbeOfDays;
+                var isSuccess = _allocationrepo.Update(record);
+                if(!isSuccess)
+                {
+                    ModelState.AddModelError("", "Error while saving");
+                    return View(model);
+                }
+                return RedirectToAction(nameof(Details), new { id = model.EmployeeId });
             }
             catch
             {
