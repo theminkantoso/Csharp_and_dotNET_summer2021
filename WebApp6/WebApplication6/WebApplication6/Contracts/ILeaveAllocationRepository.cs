@@ -6,8 +6,9 @@ using WebApplication6.Data;
 
 namespace WebApplication6.Contracts
 {
-    interface ILeaveAllocationRepository : IRepositoryBase<LeaveAllocation>
+    public interface ILeaveAllocationRepository : IRepositoryBase<LeaveAllocation>
     {
         ICollection<LeaveAllocation> GetEmployeeByLeaveAllocation(int id);
+        bool CheckAllocation(int leaveTypeId, string employeeId);
     }
 }

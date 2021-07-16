@@ -3,26 +3,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication6.Data;
 
 namespace WebApplication6
 {
     public static class SeedData
     {
-        public static void Seed(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static void Seed(UserManager<Employee> userManager, RoleManager<IdentityRole> roleManager)
         {
             SeedRoles(roleManager);
             SeedUsers(userManager);
         }
-        private static void SeedUsers(UserManager<IdentityUser> userManager)
+        private static void SeedUsers(UserManager<Employee> userManager)
         {
-            if (userManager.FindByNameAsync("Administrator").Result == null)
+            if (userManager.FindByNameAsync("admin").Result == null)
             {
-                var user = new IdentityUser
+                var user = new Employee
                 {
-                    UserName = "admin",
+                    UserName = "admin@localhost.com",
                     Email = "admin@localhost.com"
                 };
-                var result = userManager.CreateAsync(user, "Password1!").Result;
+                var result = userManager.CreateAsync(user, "P@ssword1").Result;
                 if(result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "Administrator").Wait(); // make sure finishes
@@ -46,7 +47,7 @@ namespace WebApplication6
                 {
                     Name = "Employee"
                 };
-                roleManager.CreateAsync(role);
+                var result = roleManager.CreateAsync(role).Result;
             }
         }
     }

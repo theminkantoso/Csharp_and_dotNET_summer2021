@@ -55,5 +55,11 @@ namespace WebApplication6.Repositories
         {
             return _db.LeaveAllocations.Any(q => q.Id == id); // check if a table is empty
         }
+
+        public bool CheckAllocation(int leaveTypeId, string employeeId)
+        {
+            var period = DateTime.Now.Year;
+            return FindAll().Where(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period).Any();
+        }
     }
 }
