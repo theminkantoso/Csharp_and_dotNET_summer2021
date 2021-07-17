@@ -50,7 +50,7 @@ namespace WebApplication6.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LeaveHistories",
+                name: "LeaveRequests",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -99,17 +99,17 @@ namespace WebApplication6.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_LeaveHistories_ApprovedById",
-                table: "LeaveHistories",
+                table: "LeaveRequests",
                 column: "ApprovedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LeaveHistories_LeaveTypeId",
-                table: "LeaveHistories",
+                table: "LeaveRequests",
                 column: "LeaveTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LeaveHistories_RequestingEmployeeId",
-                table: "LeaveHistories",
+                table: "LeaveRequests",
                 column: "RequestingEmployeeId");
         }
 
@@ -119,7 +119,7 @@ namespace WebApplication6.Data.Migrations
                 name: "LeaveAllocations");
 
             migrationBuilder.DropTable(
-                name: "LeaveHistories");
+                name: "LeaveRequests");
 
             migrationBuilder.DropTable(
                 name: "LeaveTypes");

@@ -258,7 +258,7 @@ namespace WebApplication6.Data.Migrations
                     b.ToTable("LeaveAllocations");
                 });
 
-            modelBuilder.Entity("WebApplication6.Data.LeaveHistory", b =>
+            modelBuilder.Entity("WebApplication6.Data.LeaveRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -297,7 +297,7 @@ namespace WebApplication6.Data.Migrations
 
                     b.HasIndex("RequestingEmployeeId");
 
-                    b.ToTable("LeaveHistories");
+                    b.ToTable("LeaveRequests");
                 });
 
             modelBuilder.Entity("WebApplication6.Data.LeaveType", b =>
@@ -427,7 +427,7 @@ namespace WebApplication6.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication6.Data.LeaveHistory", b =>
+            modelBuilder.Entity("WebApplication6.Data.LeaveRequest", b =>
                 {
                     b.HasOne("WebApplication6.Data.Employee", "ApprovedBy")
                         .WithMany()

@@ -1,28 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApplication6.Models
+namespace WebApplication6.Data
 {
-    public class LeaveHistoryViewModel
+    public class LeaveRequest
     {
+        [Key]
         public int Id { get; set; }
-        public EmployeeViewModel RequestingEmployee { get; set; } // employee who requested to leave
-        [Required]
+        [ForeignKey("RequestingEmployeeId")]
+        public Employee RequestingEmployee { get; set; } // employee who requested to leave
         public string RequestingEmployeeId { get; set; } // Employee class inheriting from identity user, so it has an id as an inheritance
-        [Required]
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public LeaveTypeViewModel LeaveType { get; set; }
+        [ForeignKey("LeaveTypeId")]
+        public LeaveType LeaveType { get; set; }
         public int LeaveTypeId { get; set; }
-        public IEnumerable<SelectListItem> LeaveTypes { get; set; }
         public DateTime DateRequested { get; set; }
         public DateTime DateActioned { get; set; } // kinda like judgement day
         public bool? Approved { get; set; } //yes - no or pending
-        public EmployeeViewModel ApprovedBy { get; set; }
+        [ForeignKey("ApprovedById")]
+        public Employee ApprovedBy { get; set; }
         public string ApprovedById { get; set; }
     }
 }

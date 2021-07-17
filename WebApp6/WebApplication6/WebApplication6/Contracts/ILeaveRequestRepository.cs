@@ -6,8 +6,8 @@ using WebApplication6.Data;
 
 namespace WebApplication6.Contracts
 {
-    public interface ILeaveHistoryRepository : IRepositoryBase<LeaveHistory>
+    public interface ILeaveRequestRepository : IRepositoryBase<LeaveRequest>
     {
-        ICollection<LeaveHistory> GetEmployeeByLeaveHistory(int id);
+        ICollection<LeaveRequest> GetEmployeeByLeaveRequest(int id);
     }
 }

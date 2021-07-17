@@ -14,7 +14,8 @@ namespace WebApplication6.Mappings
         {
             CreateMap<LeaveType, LeaveTypeViewModel>().ReverseMap(); //reverse allows us a 2-direction mapping
             CreateMap<LeaveAllocation, LeaveAllocationViewModel>().ReverseMap();
-            CreateMap<LeaveHistory, LeaveHistoryViewModel>().ReverseMap();
+            CreateMap<LeaveRequest, LeaveRequestViewModel>().ReverseMap();
+
             CreateMap<Employee, EmployeeViewModel>().ReverseMap();
             CreateMap<LeaveAllocation, EditLeaveAllocationViewModel>().ReverseMap();
         }
