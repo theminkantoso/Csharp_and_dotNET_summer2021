@@ -63,5 +63,13 @@ namespace WebApplication6.Repositories
         {
             return _db.LeaveRequests.Any(q => q.Id == id); // check if a table is empty
         }
+
+        public ICollection<LeaveRequest> GetLeaveRequestsByEmployee(string employeeid)
+        {
+            var leaveRequests = FindAll()
+                .Where(q => q.RequestingEmployeeId == employeeid)
+                .ToList();
+            return leaveRequests;
+        }
     }
 }

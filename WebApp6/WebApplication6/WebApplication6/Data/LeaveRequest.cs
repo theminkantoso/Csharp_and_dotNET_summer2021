@@ -25,5 +25,7 @@ namespace WebApplication6.Data
         [ForeignKey("ApprovedById")]
         public Employee ApprovedBy { get; set; }
         public string ApprovedById { get; set; }
+        public bool Cancelled { get; set; }
+        public string RequestComments { get; set; }
     }
 }

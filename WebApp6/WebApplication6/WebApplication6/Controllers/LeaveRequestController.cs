@@ -111,6 +111,32 @@ namespace WebApplication6.Controllers
             }
         }
 
+        public ActionResult MyLeave()
+        {
+            var employee = _userManager.GetUserAsync(User).Result;
+            var employeeid = employee.Id;
+            var employeeAllocations = _leaveAllocationRepo.GetLeaveAllocationsByEmployee(employeeid);
+            var employeeRequests = _leaveRequestRepo.GetLeaveRequestsByEmployee(employeeid);
+
+            var employeeAllocationsModel = _mapper.Map<List<LeaveAllocationViewModel>>(employeeAllocations);
+            var employeeRequestsModel = _mapper.Map<List<LeaveRequestViewModel>>(employeeRequests);
+
+            var model = new EmployeeLeaveRequestViewViewModel
+            {
+                LeaveAllocations = employeeAllocationsModel,
+                LeaveRequests = employeeRequestsModel
+            };
+            return View(model);
+        }
+
+        public ActionResult CancelRequest(int id)
+        {
+            var leaveRequest = _leaveRequestRepo.FindById(id);
+            leaveRequest.Cancelled = true;
+            _leaveRequestRepo.Update(leaveRequest);
+            return RedirectToAction("MyLeave");
+        }
+
         // GET: LeaveRequestController/Create
         public ActionResult Create()
         {
@@ -169,7 +195,8 @@ namespace WebApplication6.Controllers
                     Approved = null,
                     DateRequested = DateTime.Now,
                     DateActioned = DateTime.Now,
-                    LeaveTypeId = model.LeaveTypeId
+                    LeaveTypeId = model.LeaveTypeId,
+                    RequestComments = model.RequestComments
                 };
                 var leaveRequest = _mapper.Map<LeaveRequest>(leaveRequestModel);
                 var isSuccess = _leaveRequestRepo.Create(leaveRequest);
