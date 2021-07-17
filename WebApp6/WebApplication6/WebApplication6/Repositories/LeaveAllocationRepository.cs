@@ -75,7 +75,17 @@ namespace WebApplication6.Repositories
         {
             // getting allocations by employee
             var period = DateTime.Now.Year;
-            return FindAll().Where(q => q.EmployeeId == id && q.Period == period).ToList();
+            return FindAll()
+                .Where(q => q.EmployeeId == id && q.Period == period)
+                .ToList();
+        }
+
+        public LeaveAllocation GetLeaveAllocationsByEmployeeAndType(string id, int leaveTypeId)
+        {
+            var period = DateTime.Now.Year;
+            // FirstOrDefault only bring back the first record in Db
+            return FindAll()
+                .FirstOrDefault(q => q.EmployeeId == id && q.Period == period && q.LeaveTypeId == leaveTypeId);
         }
     }
 }

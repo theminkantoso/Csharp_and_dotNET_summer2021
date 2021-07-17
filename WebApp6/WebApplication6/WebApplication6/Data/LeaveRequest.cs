@@ -20,7 +20,7 @@ namespace WebApplication6.Data
         public LeaveType LeaveType { get; set; }
         public int LeaveTypeId { get; set; }
         public DateTime DateRequested { get; set; }
-        public DateTime DateActioned { get; set; } // kinda like judgement day
+        public DateTime? DateActioned { get; set; } // kinda like judgement day
         public bool? Approved { get; set; } //yes - no or pending
         [ForeignKey("ApprovedById")]
         public Employee ApprovedBy { get; set; }
