@@ -8,9 +8,9 @@ namespace WebApplication6.Contracts
 {
     public interface ILeaveAllocationRepository : IRepositoryBase<LeaveAllocation>
     {
-        ICollection<LeaveAllocation> GetEmployeeByLeaveAllocation(int id);
-        bool CheckAllocation(int leaveTypeId, string employeeId);
-        ICollection<LeaveAllocation> GetLeaveAllocationsByEmployee(string id);
-        LeaveAllocation GetLeaveAllocationsByEmployeeAndType(string id, int leaveTypeId);
+        Task<ICollection<LeaveAllocation>> GetEmployeeByLeaveAllocation(int id);
+        Task<bool> CheckAllocation(int leaveTypeId, string employeeId);
+        Task<ICollection<LeaveAllocation>> GetLeaveAllocationsByEmployee(string id);
+        Task<LeaveAllocation> GetLeaveAllocationsByEmployeeAndType(string id, int leaveTypeId);
     }
 }

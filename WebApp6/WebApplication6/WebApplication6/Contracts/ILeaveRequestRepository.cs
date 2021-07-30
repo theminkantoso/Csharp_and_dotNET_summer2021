@@ -8,7 +8,7 @@ namespace WebApplication6.Contracts
 {
     public interface ILeaveRequestRepository : IRepositoryBase<LeaveRequest>
     {
-        ICollection<LeaveRequest> GetEmployeeByLeaveRequest(int id);
-        ICollection<LeaveRequest> GetLeaveRequestsByEmployee(string employeeid);
+        Task<ICollection<LeaveRequest>> GetEmployeeByLeaveRequest(int id);
+        Task<ICollection<LeaveRequest>> GetLeaveRequestsByEmployee(string employeeid);
     }
 }

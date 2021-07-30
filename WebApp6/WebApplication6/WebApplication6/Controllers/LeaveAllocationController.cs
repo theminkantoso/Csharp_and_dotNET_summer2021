@@ -32,11 +32,11 @@ namespace WebApplication6.Controllers
             this._userManager = userManager;
         }
         // GET: LeaveAllocationController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var leavetypes = _typerepo.FindAll().ToList();
+            var leavetypes = await _typerepo.FindAll();
             // map between the two from the leavetype object
-            var mappedLeaveTypes = _mapper.Map<List<LeaveType>, List<LeaveTypeViewModel>>(leavetypes);
+            var mappedLeaveTypes = _mapper.Map<List<LeaveType>, List<LeaveTypeViewModel>>(leavetypes.ToList());
             // passing view model, creating an instance of this view model, giving default value come from DB
             var model = new CreateLeaveAllocationViewModel
             {
@@ -46,17 +46,17 @@ namespace WebApplication6.Controllers
             return View(model);
         }
 
-        public ActionResult SetLeave(int id)
+        public async Task<ActionResult> SetLeave(int id)
         {
             // get all leave types
-            var leaveType = _typerepo.FindById(id);
+            var leaveType = await _typerepo.FindById(id);
             // get all employees
-            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
+            var employees = await _userManager.GetUsersInRoleAsync("Employee");
             // creating leave allocation
             foreach (var emp in employees)
             {
                 // if already exists then we dont create a duplicate one
-                if(_allocationrepo.CheckAllocation(id, emp.Id))
+                if(await _allocationrepo.CheckAllocation(id, emp.Id))
                 {
                     break;
                 }
@@ -69,24 +69,24 @@ namespace WebApplication6.Controllers
                     Period = DateTime.Now.Year,
                 };
                 var leaveAllocation = _mapper.Map<LeaveAllocation>(allocation);
-                _allocationrepo.Create(leaveAllocation);
+                await _allocationrepo.Create(leaveAllocation);
             }
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult ListEmployees()
+        public async Task<ActionResult> ListEmployees()
         {
-            var employees = _userManager.GetUsersInRoleAsync("Employee").Result;
+            var employees = await _userManager.GetUsersInRoleAsync("Employee");
             var model = _mapper.Map<List<EmployeeViewModel>>(employees);
             return View(model);
         }
         // GET: LeaveAllocationController/Details/5
-        public ActionResult Details(string id)
+        public async Task<ActionResult> Details(string id)
         {
             // mapping one instance of the object to one instance to be returned
-            var employee = _mapper.Map<EmployeeViewModel>(_userManager.FindByIdAsync(id).Result);
+            var employee = _mapper.Map<EmployeeViewModel>(await _userManager.FindByIdAsync(id));
             // a list and mapping back to the view model
-            var allocations = _mapper.Map<List<LeaveAllocationViewModel>>(_allocationrepo.GetLeaveAllocationsByEmployee(id));
+            var allocations = _mapper.Map<List<LeaveAllocationViewModel>>(await _allocationrepo.GetLeaveAllocationsByEmployee(id));
             var model = new ViewAllocationViewModel
             {
                 Employee = employee,
@@ -117,9 +117,9 @@ namespace WebApplication6.Controllers
         }
 
         // GET: LeaveAllocationController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var leaveAllocation = _allocationrepo.FindById(id);
+            var leaveAllocation = await _allocationrepo.FindById(id);
             var model = _mapper.Map<EditLeaveAllocationViewModel>(leaveAllocation);
             return View(model);
         }
@@ -127,7 +127,7 @@ namespace WebApplication6.Controllers
         // POST: LeaveAllocationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditLeaveAllocationViewModel model)
+        public async Task<ActionResult> Edit(EditLeaveAllocationViewModel model)
         {
             try
             {
@@ -135,9 +135,9 @@ namespace WebApplication6.Controllers
                 {
                     return View(model);
                 }
-                var record = _allocationrepo.FindById(model.Id);
+                var record = await _allocationrepo.FindById(model.Id);
                 record.NumberOfDays = model.NumbeOfDays;
-                var isSuccess = _allocationrepo.Update(record);
+                var isSuccess = await _allocationrepo.Update(record);
                 if(!isSuccess)
                 {
                     ModelState.AddModelError("", "Error while saving");
