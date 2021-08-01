@@ -16,6 +16,7 @@ using WebApplication6.Contracts;
 using WebApplication6.Data;
 using WebApplication6.Mappings;
 using WebApplication6.Repositories;
+using WebApplication6.Services;
 
 namespace WebApplication6
 {
@@ -39,6 +40,10 @@ namespace WebApplication6
             services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            //Email Settings Section
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddAutoMapper(typeof(Maps));
             

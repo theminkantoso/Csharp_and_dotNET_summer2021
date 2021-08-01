@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using WebApplication6.Contracts;
 using WebApplication6.Data;
 using WebApplication6.Models;
+using WebApplication6.Services;
 
 namespace WebApplication6.Controllers
 {
@@ -24,11 +25,13 @@ namespace WebApplication6.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly UserManager<Employee> _userManager;
+        private readonly IEmailSender _emailSender;
 
         public LeaveRequestController( 
             IMapper mapper,
             UserManager<Employee> userManager,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            IEmailSender emailSender
             //ILeaveTypeRepository leaveTypeRepo,
             //ILeaveAllocationRepository leaveAllocationRepo,
             //ILeaveRequestRepository leaveRequestRepo,
@@ -37,10 +40,11 @@ namespace WebApplication6.Controllers
             this._mapper = mapper;
             this._userManager = userManager;
             this._unitOfWork = unitOfWork;
+            this._emailSender = emailSender;
             //this._leaveRequestRepo = leaveRequestRepo;
             //this._leaveTypeRepo = leaveTypeRepo;
             //this._leaveAllocationRepo = leaveAllocationRepo;
-           
+
         }
         // GET: LeaveRequestController
         [Authorize(Roles = "Administrator")]
@@ -245,6 +249,9 @@ namespace WebApplication6.Controllers
                 await _unitOfWork.LeaveRequests.Create(leaveRequest);
                 await _unitOfWork.Save();
 
+                // Send Email to supervisor and requesting user
+                await _emailSender.SendEmailAsync("admin@localhost.com", "New Leave Request",
+                    $"Please review this leave request. <a href='UrlOfApp/{leaveRequest.Id}'>Click Here</a>");
 
                 return RedirectToAction("MyLeave");
 

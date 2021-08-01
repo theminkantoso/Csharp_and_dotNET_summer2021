@@ -141,29 +141,29 @@ namespace WebApplication6.Controllers
         }
 
         // GET: LeaveTypesController/Delete/5
-        public async Task<ActionResult> Delete(int id)
-        {
+        //public async Task<ActionResult> Delete(int id)
+        //{
 
-            //var leaveType = await _repo.FindById(id);
-            var leaveType = await _unitOfWork.LeaveTypes.Find(expression: q => q.Id == id);
-            if (leaveType == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.LeaveTypes.Delete(leaveType);
-            await _unitOfWork.Save();
-            //var isSuccess = await _repo.Delete(leaveType);
-            //if (!isSuccess)
-            //{
-            //    return BadRequest();
-            //}
-            return RedirectToAction(nameof(Index));
-        }
+        //    //var leaveType = await _repo.FindById(id);
+        //    var leaveType = await _unitOfWork.LeaveTypes.Find(expression: q => q.Id == id);
+        //    if (leaveType == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    _unitOfWork.LeaveTypes.Delete(leaveType);
+        //    await _unitOfWork.Save();
+        //    //var isSuccess = await _repo.Delete(leaveType);
+        //    //if (!isSuccess)
+        //    //{
+        //    //    return BadRequest();
+        //    //}
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         // POST: LeaveTypesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, LeaveTypeViewModel model)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
@@ -178,8 +178,9 @@ namespace WebApplication6.Controllers
             }
             catch
             {
-                return View(model);
+
             }
+            return RedirectToAction(nameof(Index));
         }
         protected override void Dispose(bool disposing)
         {
